@@ -3,33 +3,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 
-import java.util.concurrent.TimeUnit;
-
 public class MainPage {
-
     // переменная драйвера
     private final WebDriver driver;
-    //первый тест - на раскрытие выпадающих списков
-    // Раздел вопросы о важном
-    private final By firstQuestion = By.id("accordion__heading-0");
-    private final By firstAnswer = By.id("accordion__panel-0");
-    private final By secondQuestion = By.id("accordion__heading-1");
-    private final By secondAnswer = By.id("accordion__panel-1");
-    private final By thirdQuestion = By.id("accordion__heading-2");
-    private final By thirdAnswer = By.id("accordion__panel-2");
-    private final By fourthQuestion = By.id("accordion__heading-3");
-    private final By fourthAnswer = By.id("accordion__panel-3");
-    private final By fifthQuestion = By.id("accordion__heading-4");
-    private final By fifthAnswer = By.id("accordion__panel-4");
-    private final By sixthQuestion = By.id("accordion__heading-5");
-    private final By sixthAnswer = By.id("accordion__panel-5");
-    private final By seventhQuestion = By.id("accordion__heading-6");
-    private final By seventhAnswer = By.id("accordion__panel-6");
-    private final By eighthQuestion = By.id("accordion__heading-7");
-    private final By eighthAnswer = By.id("accordion__panel-7");
-
-    // Кнопка "Заказать" в заголовке
-    private final By orderButtonTitle = By.cssSelector(".Header_Nav__AGCXC .Button_Button__ra12g");
     // Поле ввода имени
     private final By fieldName = By.cssSelector(".Input_Responsible__1jDKN[placeholder='* Имя']");
     // Поле ввода фамилии
@@ -60,64 +36,14 @@ public class MainPage {
     public MainPage(WebDriver driver) {
         this.driver = driver;
     }
-    public void clickFirstQuestion() {
-        driver.findElement(firstQuestion).click();
-        driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
+    public void clickQuestion(String question) {
+        driver.findElement(By.id(question)).click();
     }
-    public String getFirstAnswer() {
-        return driver.findElement(firstAnswer).getText();
+    public String getAnswer(String answer) {
+        return driver.findElement(By.id(answer)).getText();
     }
-    public void clickSecondQuestion() {
-        driver.findElement(secondQuestion).click();
-        driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
-    }
-    public String getSecondAnswer() {
-        return driver.findElement(secondAnswer).getText();
-    }
-    public void clickThirdQuestion() {
-        driver.findElement(thirdQuestion).click();
-        driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
-    }
-    public String getThirdAnswer() {
-        return driver.findElement(thirdAnswer).getText();
-    }
-    public void clickFourthQuestion() {
-        driver.findElement(fourthQuestion).click();
-        driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
-    }
-    public String getFourthAnswer() {
-        return driver.findElement(fourthAnswer).getText();
-    }
-    public void clickFifthQuestion() {
-        driver.findElement(fifthQuestion).click();
-        driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
-    }
-    public String getFifthAnswer() {
-        return driver.findElement(fifthAnswer).getText();
-    }
-    public void clickSixthQuestion() {
-        driver.findElement(sixthQuestion).click();
-        driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
-    }
-    public String getSixthAnswer() {
-        return driver.findElement(sixthAnswer).getText();
-    }
-    public void clickSeventhQuestion() {
-        driver.findElement(seventhQuestion).click();
-        driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
-    }
-    public String getSeventhAnswer() {
-        return driver.findElement(seventhAnswer).getText();
-    }
-    public void clickEighthQuestion() {
-        driver.findElement(eighthQuestion).click();
-        driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
-    }
-    public String getEighthAnswer() {
-        return driver.findElement(eighthAnswer).getText();
-    }
-    public void clickOrderButtonTitle() {
-        driver.findElement(orderButtonTitle).click();
+    public void clickOrderButton(String orderButton) {
+        driver.findElement(By.xpath(orderButton)).click();
     }
     public void setName(String userName) {
         driver.findElement(fieldName).sendKeys(userName);
@@ -148,10 +74,8 @@ public class MainPage {
         setAddress(address);
         chooseMetro(metroStation);
         setPhone(phone);
-        clickCookieButton();
         clickButtonNext();
     }
-
     public void setChoseDate(String date) {
         driver.findElement(fieldChooseDate).sendKeys(date);
         driver.findElement(fieldChooseDate).sendKeys(Keys.ENTER);
@@ -178,5 +102,4 @@ public class MainPage {
     public String getTitleOrder() {
         return driver.findElement(titleOrder).getText();
     }
-
 }

@@ -1,36 +1,50 @@
+import org.junit.Before;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 import org.openqa.selenium.WebDriver;
 import org.junit.After;
+import org.junit.Test;
 import pages.MainPage;
 import org.openqa.selenium.chrome.ChromeDriver;
-
 import static org.junit.Assert.assertEquals;
 
+@RunWith(Parameterized.class)
 public class TestImportantQuestions {
     private WebDriver driver;
+    private final String question;
+    private final String actualAnswer;
+    private final String expectedAnswer;
 
-    @org.junit.Test
-    public void checkActivity() {
-        System.setProperty("webdriver.chrome.driver", "/Users/anastasiia/webDriver/bin/chromedriver");
+    public TestImportantQuestions (String question, String actualAnswer, String expectedAnswer) {
+        this.question = question;
+        this.actualAnswer = actualAnswer;
+        this.expectedAnswer = expectedAnswer;
+    }
+    @Parameterized.Parameters
+    public static Object[][] getData() {
+        return new Object[][] {
+                {"accordion__heading-0", "accordion__panel-0", "Сутки — 400 рублей. Оплата курьеру — наличными или картой."},
+                {"accordion__heading-1", "accordion__panel-1", "Пока что у нас так: один заказ — один самокат. Если хотите покататься с друзьями, можете просто сделать несколько заказов — один за другим."},
+                {"accordion__heading-2", "accordion__panel-2", "Допустим, вы оформляете заказ на 8 мая. Мы привозим самокат 8 мая в течение дня. Отсчёт времени аренды начинается с момента, когда вы оплатите заказ курьеру. Если мы привезли самокат 8 мая в 20:30, суточная аренда закончится 9 мая в 20:30."},
+                {"accordion__heading-3", "accordion__panel-3", "Только начиная с завтрашнего дня. Но скоро станем расторопнее."},
+                {"accordion__heading-4",  "accordion__panel-4", "Пока что нет! Но если что-то срочное — всегда можно позвонить в поддержку по красивому номеру 1010."},
+                {"accordion__heading-5", "accordion__panel-5", "Самокат приезжает к вам с полной зарядкой. Этого хватает на восемь суток — даже если будете кататься без передышек и во сне. Зарядка не понадобится."},
+                {"accordion__heading-6", "accordion__panel-6", "Да, пока самокат не привезли. Штрафа не будет, объяснительной записки тоже не попросим. Все же свои."},
+                {"accordion__heading-7", "accordion__panel-7", "Да, обязательно. Всем самокатов! И Москве, и Московской области."},
+        };
+    }
+    @Before
+    public void setUp(){
         driver = new ChromeDriver();
         driver.get("https://qa-scooter.praktikum-services.ru");
+    }
+    @Test
+    public void checkActivity() {
         MainPage testImportantQuestions = new MainPage(driver);
         testImportantQuestions.clickCookieButton();
-        testImportantQuestions.clickFirstQuestion();
-        assertEquals("Текст первого ответа отличается", testImportantQuestions.getFirstAnswer(), "Сутки — 400 рублей. Оплата курьеру — наличными или картой.");
-        testImportantQuestions.clickSecondQuestion();
-        assertEquals("Текст второго ответа отличается", testImportantQuestions.getSecondAnswer(), "Пока что у нас так: один заказ — один самокат. Если хотите покататься с друзьями, можете просто сделать несколько заказов — один за другим.");
-        testImportantQuestions.clickThirdQuestion();
-        assertEquals("Текст третьего ответа отличается", testImportantQuestions.getThirdAnswer(), "Допустим, вы оформляете заказ на 8 мая. Мы привозим самокат 8 мая в течение дня. Отсчёт времени аренды начинается с момента, когда вы оплатите заказ курьеру. Если мы привезли самокат 8 мая в 20:30, суточная аренда закончится 9 мая в 20:30.");
-        testImportantQuestions.clickFourthQuestion();
-        assertEquals("Текст четвертого ответа отличается", testImportantQuestions.getFourthAnswer(), "Только начиная с завтрашнего дня. Но скоро станем расторопнее.");
-        testImportantQuestions.clickFifthQuestion();
-        assertEquals("Текст пятого ответа отличается", testImportantQuestions.getFifthAnswer(), "Пока что нет! Но если что-то срочное — всегда можно позвонить в поддержку по красивому номеру 1010.");
-        testImportantQuestions.clickSixthQuestion();
-        assertEquals("Текст шестого ответа отличается", testImportantQuestions.getSixthAnswer(), "Самокат приезжает к вам с полной зарядкой. Этого хватает на восемь суток — даже если будете кататься без передышек и во сне. Зарядка не понадобится.");
-        testImportantQuestions.clickSeventhQuestion();
-        assertEquals("Текст седьмого ответа отличается", testImportantQuestions.getSeventhAnswer(), "Да, пока самокат не привезли. Штрафа не будет, объяснительной записки тоже не попросим. Все же свои.");
-        testImportantQuestions.clickEighthQuestion();
-        assertEquals("Текст восьмого ответа отличается", testImportantQuestions.getEighthAnswer(), "Да, обязательно. Всем самокатов! И Москве, и Московской области.");
+        testImportantQuestions.clickQuestion(question);
+        testImportantQuestions.getAnswer(actualAnswer);
+        assertEquals("Текст ответа отличается", testImportantQuestions.getAnswer(actualAnswer), expectedAnswer);
     }
     @After
     public void teardown() {
